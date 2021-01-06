@@ -33,7 +33,7 @@ public class GameController {
         Game game = new Game(name, gameId, port);
         try {
 
-            String cmd = "./" + this.executable + " " + this.address + " " + this.port;
+            String cmd = "./" + this.executable + " " + this.address + " " + this.port + " " + gameId + " " + name;
 
             logger.info("running " + cmd);
             Process process = Runtime.getRuntime()
