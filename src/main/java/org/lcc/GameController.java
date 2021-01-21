@@ -27,13 +27,13 @@ public class GameController {
     private static final Logger logger = LoggerFactory.getLogger(GameController.class);
     private final List<Game> games = new ArrayList<>();
 
-    @GetMapping("/create/{name}")
-    public Game createGame(@PathVariable String name){
+    @GetMapping("/create/{name}/{count}")
+    public Game createGame(@PathVariable String name, @PathVariable int count){
         String gameId = new UID().toString();
-        Game game = new Game(name, gameId, port);
+        Game game = new Game(name, gameId, port, count);
         try {
 
-            String cmd = "./" + this.executable + " " + this.address + " " + this.port + " " + gameId + " " + name;
+            String cmd = "./" + this.executable + " " + this.address + " " + this.port + " " + gameId + " " + name + " " + count;
 
             logger.info("running " + cmd);
             Process process = Runtime.getRuntime()
@@ -59,12 +59,13 @@ public class GameController {
     private static class Game
     {
         private final String name, id;
-        private final int port;
+        private final int port, countPlayers;
 
-        private Game(String name, String id, int port) {
+        private Game(String name, String id, int port, int countPlayers) {
             this.name = name;
             this.id = id;
             this.port = port;
+            this.countPlayers = countPlayers;
         }
 
         public String getName()
@@ -80,6 +81,11 @@ public class GameController {
         public int getPort()
         {
             return this.port;
+        }
+
+        public int getCountPlayers()
+        {
+            return this.countPlayers;
         }
     }
 }
